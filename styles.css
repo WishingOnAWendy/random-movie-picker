@@ -6,17 +6,30 @@ body {
     padding: 0;
     min-height: 100vh; /* Ensure background extends to full height of viewport */
     display: flex; /* Enable flexbox layout */
-    flex-direction: column; /* Arrange children in a column */
-    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    text-align: center;
+}
+
+.screen {
+    background: white;
+    width: 80%;
+    max-width: 800px;
+    min-height: 600px; /* Fixed height to prevent shifting */
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* Shadow to create a screen effect */
+    text-align: center;
+    border-radius: 10px; /* Slightly round the corners to resemble a screen */
 }
 
 header {
-    text-align: center;
     padding: 10px 0;
 }
 
 h1 {
     margin: 0;
+    color: #333; /* Darker color for contrast on white background */
 }
 
 #filters {
@@ -32,6 +45,7 @@ h1 {
     margin-bottom: 10px;
     width: 100%;
     text-align: center;
+    color: #333; /* Darker color for contrast on white background */
 }
 
 #filters div {
@@ -43,6 +57,7 @@ label {
     display: block;
     text-align: center;
     margin-bottom: 5px;
+    color: #333; /* Darker color for contrast on white background */
 }
 
 select {
@@ -79,13 +94,14 @@ button.active {
 #movie-display {
     margin: 10px auto;
     max-width: 600px;
-    min-height: 400px; /* Fixed height to prevent shifting */
+    height: 600px; /* Fixed height to prevent shifting */
     text-align: center;
     transition: opacity 0.3s; /* Smooth transition for opacity */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: hidden; /* Ensure content doesn't overflow the fixed height */
 }
 
 #movie-display img {
@@ -97,4 +113,5 @@ button.active {
 #movie-display p {
     font-style: italic; /* Italicize the description */
     padding: 10px; /* Add some padding for better readability */
+    color: #333; /* Darker color for contrast on white background */
 }

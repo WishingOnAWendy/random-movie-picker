@@ -7,46 +7,47 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Random Movie Picker</h1>
-    </header>
+    <div class="screen">
+        <header>
+            <h1>Random Movie Picker</h1>
+        </header>
 
-    <section id="filters" aria-labelledby="filters-heading">
-        <h2 id="filters-heading">Filters</h2>
-        <div>
-            <label for="genre1">Genre 1:</label>
-            <select id="genre1" name="genre1">
-                <!-- Options will be populated dynamically -->
-            </select>
-        </div>
-        <div>
-            <label for="genre2">Genre 2:</label>
-            <select id="genre2" name="genre2">
-                <!-- Options will be populated dynamically -->
-            </select>
-        </div>
-        <div>
-            <label for="rating">Rating:</label>
-            <select id="rating" name="rating">
-                <!-- Options will be populated dynamically -->
-            </select>
-        </div>
-        <div>
-            <label for="release-year">Release Year:</label>
-            <select id="release-year" name="release-year">
-                <!-- Options will be populated dynamically -->
-            </select>
-        </div>
-    </section>
+        <section id="filters" aria-labelledby="filters-heading">
+            <h2 id="filters-heading">Filters</h2>
+            <div>
+                <label for="genre1">Genre 1:</label>
+                <select id="genre1" name="genre1">
+                    <!-- Options will be populated dynamically -->
+                </select>
+            </div>
+            <div>
+                <label for="genre2">Genre 2:</label>
+                <select id="genre2" name="genre2">
+                    <!-- Options will be populated dynamically -->
+                </select>
+            </div>
+            <div>
+                <label for="rating">Rating:</label>
+                <select id="rating" name="rating">
+                    <!-- Options will be populated dynamically -->
+                </select>
+            </div>
+            <div>
+                <label for="release-year">Release Year:</label>
+                <select id="release-year" name="release-year">
+                    <!-- Options will be populated dynamically -->
+                </select>
+            </div>
+        </section>
 
-    <section id="movie-display" aria-live="polite">
-        <!-- Movie details will be displayed here -->
-    </section>
+        <section id="movie-display" aria-live="polite">
+            <!-- Movie details will be displayed here -->
+        </section>
 
-    <section>
-        <button id="generate-btn" aria-label="Generate Random Movie">Save Movie Night</button>
-    </section>
-
+        <section>
+            <button id="generate-btn" aria-label="Generate Random Movie">Generate Random Movie</button>
+        </section>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

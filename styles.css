@@ -30,7 +30,7 @@ header {
 
 h1 {
     margin: 0;
-    color: #333; /* Darker color for contrast on white background */
+    color: #cccccc; /* Darker color for contrast on white background */
     font-size: 2rem; /* Slightly reduce font size for the title */
 }
 
@@ -47,7 +47,7 @@ h1 {
     margin-bottom: 5px; /* Reduce margin to save space */
     width: 100%;
     text-align: center;
-    color: #333; /* Darker color for contrast on white background */
+    color: #cccccc; /* Darker color for contrast on white background */
     font-size: 1.2rem; /* Slightly reduce font size for the section title */
 }
 
@@ -60,7 +60,7 @@ label {
     display: block;
     text-align: center;
     margin-bottom: 5px;
-    color: #333; /* Darker color for contrast on white background */
+    color: #d1d1d1; 
     font-size: 0.9rem; /* Slightly reduce font size for labels */
 }
 
@@ -134,7 +134,7 @@ button.active {
 #movie-display p {
     font-style: italic; /* Italicize the description */
     padding: 10px; /* Add some padding for better readability */
-    color: #333; /* Darker color for contrast on white background */
+    color: #e4e4e4; 
     max-height: 100px; /* Limit the height of the description */
     text-overflow: ellipsis; /* Add ellipsis for overflow text */
     white-space: normal; /* Allow text to wrap */

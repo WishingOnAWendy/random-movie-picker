@@ -1,7 +1,7 @@
 body {
     background: linear-gradient(to bottom, #000000, #111111); /* Black gradient from bottom to top */
     color: white;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif; /* Use a modern font like Roboto */
     margin: 0;
     padding: 0;
     min-height: 100vh; /* Ensure background extends to full height of viewport */
@@ -12,15 +12,16 @@ body {
 }
 
 .screen {
-    background: white;
+    background: rgb(78, 79, 82);
     width: 80%;
     max-width: 800px;
-    min-height: 600px; /* Fixed height to prevent shifting */
+    min-height: 700px; /* Increased height */
     margin: 20px;
     padding: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* Shadow to create a screen effect */
     text-align: center;
     border-radius: 10px; /* Slightly round the corners to resemble a screen */
+    overflow: hidden; /* Prevent content overflow */
 }
 
 header {
@@ -30,6 +31,7 @@ header {
 h1 {
     margin: 0;
     color: #333; /* Darker color for contrast on white background */
+    font-size: 2rem; /* Slightly reduce font size for the title */
 }
 
 #filters {
@@ -37,15 +39,16 @@ h1 {
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
-    margin: 10px auto;
+    margin: 10px auto; /* Reduce margin to save space */
     max-width: 600px;
 }
 
 #filters h2 {
-    margin-bottom: 10px;
+    margin-bottom: 5px; /* Reduce margin to save space */
     width: 100%;
     text-align: center;
     color: #333; /* Darker color for contrast on white background */
+    font-size: 1.2rem; /* Slightly reduce font size for the section title */
 }
 
 #filters div {
@@ -58,14 +61,26 @@ label {
     text-align: center;
     margin-bottom: 5px;
     color: #333; /* Darker color for contrast on white background */
+    font-size: 0.9rem; /* Slightly reduce font size for labels */
 }
 
 select {
     width: 100%; /* Fill the available space */
+    padding: 8px; /* Reduce padding to save space */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 0.9rem; /* Slightly reduce font size */
+    background: #f9f9f9; /* Light background color */
+    appearance: none; /* Remove default dropdown arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIj48cGF0aCBkPSJNNS4yIDEwbDQuOS00LjkgNC45IDQuOUw5LjcgMTNMMTAgNmwtNC0xIDQuMi00LjEgOS0xMC4xTDEwLjUgM0w4IDcuMyA0LjggM2wtMy4xIDQuN0w5LjIgMjAuNkwyMCAxMEwxMC4zIDkuNyA5LjMgMTIuMkw2LjkgMTAuM0w1LjIgMTB6Ii8+PC9zdmc+'); /* Custom dropdown arrow */
+    background-position: right 10px center;
+    background-repeat: no-repeat;
 }
 
 #release-year {
-    min-width: 180px; /* Ensure the dropdown is wide enough for the text */
+    min-width: 220px; /* Ensure the dropdown is wide enough for the text */
 }
 
 button {
@@ -76,6 +91,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: 1rem; /* Keep font size for buttons */
 }
 
 button:hover {
@@ -88,13 +104,13 @@ button.active {
 
 #generate-btn {
     display: block;
-    margin: 10px auto;
+    margin: 20px auto;
 }
 
 #movie-display {
     margin: 10px auto;
     max-width: 600px;
-    height: 600px; /* Fixed height to prevent shifting */
+    height: 500px; /* Increased height to ensure content fits */
     text-align: center;
     transition: opacity 0.3s; /* Smooth transition for opacity */
     display: flex;
@@ -110,8 +126,20 @@ button.active {
     border-radius: 10px; /* Slightly round the corners */
 }
 
+#movie-display h2 {
+    font-size: 1.5rem; /* Adjust font size */
+    margin: 10px 0; /* Add margin */
+}
+
 #movie-display p {
     font-style: italic; /* Italicize the description */
     padding: 10px; /* Add some padding for better readability */
     color: #333; /* Darker color for contrast on white background */
+    max-height: 100px; /* Limit the height of the description */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    white-space: normal; /* Allow text to wrap */
+    overflow: hidden; /* Hide overflowing text */
+    display: -webkit-box; /* Use flexbox model */
+    -webkit-line-clamp: 5; /* Limit to 5 lines */
+    -webkit-box-orient: vertical; /* Set box orientation to vertical */
 }

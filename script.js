@@ -1,5 +1,8 @@
 const apiKey = '44d93654566b22634575a4d0673b06b8'; // Replace with your actual TMDb API key
 
+
+let shownMovies = []; // Array to keep track of shown movies
+
 // Function to fetch genre list from TMDb API
 async function fetchGenres() {
     const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`;
@@ -46,7 +49,7 @@ async function fetchMovies() {
     try {
         const response = await fetch(movieUrl);
         const data = await response.json();
-        return data.results;
+        return data.results.filter(movie => !shownMovies.includes(movie.id)); // Exclude already shown movies
     } catch (error) {
         console.error('Error fetching movie data:', error);
         displayErrorMessage("Error fetching movie data. Please try again later.");
@@ -54,17 +57,43 @@ async function fetchMovies() {
     }
 }
 
+// Function to truncate text to 5 lines if needed
+function truncateText(text, maxLines) {
+    const lineHeight = 1.5; // Assuming the line height is 1.5em
+    const div = document.createElement('div');
+    div.style.position = 'absolute';
+    div.style.visibility = 'hidden';
+    div.style.whiteSpace = 'nowrap';
+    div.style.width = '100%';
+    div.style.lineHeight = `${lineHeight}em`;
+    div.style.fontSize = '16px'; // Match the font size used in the description
+    div.style.fontFamily = 'Roboto, sans-serif'; // Match the font family used in the description
+    document.body.appendChild(div);
+    div.innerHTML = text;
+    
+    let truncatedText = text;
+    while (div.offsetHeight / parseFloat(getComputedStyle(div).lineHeight) > maxLines) {
+        truncatedText = truncatedText.slice(0, -1);
+        div.innerHTML = truncatedText + '...';
+    }
+    
+    const needsEllipsis = div.offsetHeight / parseFloat(getComputedStyle(div).lineHeight) > maxLines;
+    document.body.removeChild(div);
+    return needsEllipsis ? truncatedText + '...' : text;
+}
+
 // Function to display movie details on the web app page
 function displayMovie(movie) {
     const movieDisplay = document.getElementById("movie-display");
     movieDisplay.style.opacity = 0; // Start fade-out effect
     setTimeout(() => {
+        const truncatedOverview = truncateText(movie.overview, 5);
         movieDisplay.innerHTML = `
             <h2>${movie.title} (${movie.release_date.slice(0, 4)})</h2>
             <a href="https://www.themoviedb.org/movie/${movie.id}" target="_blank">
                 <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
             </a>
-            <p>${movie.overview}</p>
+            <p class="description">${truncatedOverview}</p>
         `;
         movieDisplay.style.opacity = 1; // Start fade-in effect
     }, 300); // Duration of the fade-out effect
@@ -80,20 +109,6 @@ function displayErrorMessage(message) {
 async function rollMovies() {
     const movies = await fetchMovies();
     if (movies.length === 0) {
-        return;
-    }
-
-    const filteredMovies = movies.filter(movie => {
-        const genre1 = document.getElementById("genre1").value;
-        const genre2 = document.getElementById("genre2").value;
-        const rating = document.getElementById("rating").value;
-        const releaseYear = document.getElementById("release-year").value;
-        return (movie.genre_ids.includes(parseInt(genre1)) || movie.genre_ids.includes(parseInt(genre2))) &&
-            movie.vote_average >= rating &&
-            parseInt(movie.release_date.slice(0, 4)) >= releaseYear;
-    });
-
-    if (filteredMovies.length === 0) {
         displayErrorMessage("No movies match the selected criteria.");
         return;
     }
@@ -103,16 +118,17 @@ async function rollMovies() {
     let currentIndex = 0;
 
     const rollIntervalId = setInterval(() => {
-        const movie = filteredMovies[currentIndex];
+        const movie = movies[currentIndex];
         displayMovie(movie);
-        currentIndex = (currentIndex + 1) % filteredMovies.length;
+        currentIndex = (currentIndex + 1) % movies.length;
         rollCount--;
         if (rollCount === 0) {
             clearInterval(rollIntervalId);
             // Pick the final movie
-            const randomIndex = Math.floor(Math.random() * filteredMovies.length);
-            const randomMovie = filteredMovies[randomIndex];
+            const randomIndex = Math.floor(Math.random() * movies.length);
+            const randomMovie = movies[randomIndex];
             displayMovie(randomMovie);
+            shownMovies.push(randomMovie.id); // Add to shown movies
         }
     }, rollInterval);
 }
@@ -125,6 +141,13 @@ document.getElementById("generate-btn").addEventListener("click", function() {
         button.classList.remove("active");
     }, 300); // Remove "active" class after 300 milliseconds
     rollMovies();
+});
+
+// Event listener to reset shown movies when filters are changed
+document.querySelectorAll('#filters select').forEach(select => {
+    select.addEventListener('change', () => {
+        shownMovies = []; // Reset shown movies
+    });
 });
 
 // Populate genre select dropdowns with genre list from TMDb API when the page loads

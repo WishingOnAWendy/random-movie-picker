@@ -118,13 +118,24 @@ function displayErrorMessage(message) {
     movieDisplay.innerHTML = `<p>${message}</p>`;
 }
 
+// Function to shuffle an array
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 // Function to roll through movies before selecting the final one
 async function rollMovies() {
-    const movies = await fetchMovies();
+    let movies = await fetchMovies();
     if (movies.length === 0) {
         displayErrorMessage("No movies match the selected criteria.");
         return;
     }
+
+    // Shuffle the array of movies
+    shuffleArray(movies);
 
     let rollCount = 5; // Number of times to roll
     const rollInterval = 200; // Interval between rolls in milliseconds

@@ -37,19 +37,32 @@ function updateGenreDropdowns(genres) {
     });
 }
 
-// Function to fetch movie data from TMDb API
+// Function to fetch all pages of movie data from TMDb API
 async function fetchMovies() {
     const genre1 = document.getElementById("genre1").value;
     const genre2 = document.getElementById("genre2").value;
     const rating = document.getElementById("rating").value;
     const releaseYear = document.getElementById("release-year").value;
 
-    const movieUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genre1},${genre2}&vote_average.gte=${rating}&primary_release_date.gte=${releaseYear}-01-01&sort_by=popularity.desc&language=en-US&page=1`;
+    const baseUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genre1},${genre2}&vote_average.gte=${rating}&primary_release_date.gte=${releaseYear}-01-01&sort_by=popularity.desc&language=en-US`;
+    const movies = [];
 
     try {
-        const response = await fetch(movieUrl);
-        const data = await response.json();
-        return data.results.filter(movie => !shownMovies.includes(movie.id)); // Exclude already shown movies
+        // First request to get the total number of results
+        const totalResultsResponse = await fetch(`${baseUrl}&page=1`);
+        const totalResultsData = await totalResultsResponse.json();
+        const totalPages = totalResultsData.total_pages;
+
+        // Fetch all pages
+        for (let i = 1; i <= totalPages; i++) {
+            const response = await fetch(`${baseUrl}&page=${i}`);
+            const data = await response.json();
+            movies.push(...data.results);
+        }
+
+        // Filter out already shown movies
+        const uniqueMovies = movies.filter(movie => !shownMovies.includes(movie.id));
+        return uniqueMovies;
     } catch (error) {
         console.error('Error fetching movie data:', error);
         displayErrorMessage("Error fetching movie data. Please try again later.");
@@ -70,13 +83,13 @@ function truncateText(text, maxLines) {
     div.style.fontFamily = 'Roboto, sans-serif'; // Match the font family used in the description
     document.body.appendChild(div);
     div.innerHTML = text;
-    
+
     let truncatedText = text;
     while (div.offsetHeight / parseFloat(getComputedStyle(div).lineHeight) > maxLines) {
         truncatedText = truncatedText.slice(0, -1);
         div.innerHTML = truncatedText + '...';
     }
-    
+
     const needsEllipsis = div.offsetHeight / parseFloat(getComputedStyle(div).lineHeight) > maxLines;
     document.body.removeChild(div);
     return needsEllipsis ? truncatedText + '...' : text;
